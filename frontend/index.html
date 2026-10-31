@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f5f5f2" />
+    <meta name="description" content="Uma API de mentira para testar problemas de verdade. Provoque uma falha. Observe a resposta. Tente de novo." />
+    <meta name="referrer" content="no-referrer" />
+    <title>dublê. — Bancada HTTP</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d4547'/%3E%3Ctext x='9' y='44' font-family='monospace' font-size='37' fill='%23fff'%3Ed:%3C/text%3E%3C/svg%3E" />
+    <script type="module" src="/src/main.ts"></script>
+  </head>
+  <body data-view="monitor">
+    <a class="skip-link" href="#workbench">Ir para a bancada</a>
+    <div class="page-shell">
+      <header class="masthead">
+        <a class="brand" href="#workbench" aria-label="dublê, início">
+          <span class="brand-mark" aria-hidden="true">d:</span>
+          <span class="wordmark">dublê<span>.</span></span>
+        </a>
+        <div class="introduction"><h1>Uma API de mentira para testar problemas de verdade.</h1><p>Provoque uma falha. Observe a resposta. Tente de novo.</p></div>
+        <div class="header-actions">
+          <span class="connection-label">Requisições reais, do seu navegador</span>
+          <button id="open-guide" class="text-button" type="button" aria-haspopup="dialog">Como funciona</button>
+          <button id="open-examples" class="button button-secondary button-small" type="button" aria-haspopup="dialog">Usar no código</button>
+        </div>
+      </header>
+
+      <main id="workbench" tabindex="-1">
+        <div class="workbench-heading">
+          <div><h2>Bancada HTTP</h2><p>Configure um cenário e acompanhe as respostas.</p></div>
+          <p id="execution-state" class="execution-state">Nenhuma execução criada</p>
+        </div>
+        <div id="catalog-error" class="notice" role="alert" hidden>
+          <p id="catalog-error-text"></p><button id="reload-catalog" class="text-button" type="button">Tentar novamente</button>
+        </div>
+
+        <section class="configuration" aria-labelledby="configuration-title">
+          <div class="mobile-section-heading"><h2 id="configuration-title">Configurar cenário</h2><p>Escolha o comportamento das chamadas.</p></div>
+          <fieldset id="scenario-fieldset" disabled>
+            <legend class="sr-only">Escolha um cenário</legend>
+            <div id="scenario-options" class="scenario-options"><p>Carregando cenários…</p></div>
+          </fieldset>
+          <div class="setup">
+            <div class="parameter-field">
+              <div><label id="parameter-label" for="parameter">Quantidade de falhas</label><p id="parameter-help" class="field-help">De 1 a 5 falhas.</p></div>
+              <div class="stepper"><button id="parameter-minus" type="button" aria-label="Diminuir parâmetro">−</button><input id="parameter" type="number" inputmode="numeric" step="1" aria-describedby="parameter-help parameter-error" disabled /><button id="parameter-plus" type="button" aria-label="Aumentar parâmetro">+</button></div>
+            </div>
+            <p id="scenario-expectation" class="setup-expectation">As primeiras chamadas retornam 503; depois, 200.</p>
+            <button id="create-run" class="button button-primary" type="button" disabled>Criar execução</button>
+          </div>
+          <p id="parameter-error" class="field-error" hidden></p>
+          <p id="run-notice" class="run-notice">Crie uma execução para obter um endpoint temporário.</p>
+        </section>
+
+        <section class="monitor" aria-labelledby="execution-title">
+          <div class="mobile-section-heading monitor-mobile-heading"><div><h2>Monitor</h2><p id="mobile-scenario">Nenhum cenário ativo</p></div><button class="text-button" type="button" data-view="config">Ajustar cenário</button></div>
+          <div class="endpoint-bar">
+            <span class="method">POST</span>
+            <label class="sr-only" for="run-url">Seu endpoint temporário</label>
+            <input id="run-url" readonly placeholder="Crie uma execução para obter a URL" aria-describedby="run-validity" />
+            <button id="copy-url" class="text-button" type="button" disabled>Copiar URL</button>
+            <span id="run-validity" class="validity">Sem execução</span>
+          </div>
+          <div class="stage-header"><h2 id="execution-title">Resposta</h2><span id="local-count">Nenhuma chamada nesta aba</span></div>
+          <div class="result-stage" id="result-stage">
+            <section class="results" aria-label="Resultado da última chamada" aria-busy="false">
+              <div id="empty-result" class="empty-result"><span class="empty-code" aria-hidden="true">—</span><h3>Pronto para o primeiro teste</h3><p>Crie uma execução e envie uma chamada.<br />O status, o tempo e a tentativa aparecem aqui.</p></div>
+              <div id="result-summary" class="result-summary" hidden>
+                <div class="response-line"><strong id="result-status" class="result-status"></strong><div><p id="result-origin" class="result-origin"></p><h3 id="result-title"></h3></div></div>
+                <p id="result-explanation" class="result-explanation"></p>
+                <dl class="result-metrics"><div><dt>Duração</dt><dd id="result-duration">—</dd></div><div><dt>Tentativa</dt><dd id="result-attempt">—</dd></div><div><dt>Cenário</dt><dd id="result-scenario">—</dd></div></dl>
+              </div>
+            </section>
+            <section class="wire" aria-labelledby="body-preview-title"><div class="wire-heading"><h3 id="body-preview-title">Corpo da resposta</h3><button id="inspect-latest" class="text-button" type="button" aria-haspopup="dialog" disabled>Inspecionar resposta</button></div><pre id="body-preview" tabindex="0" aria-label="Prévia do corpo da resposta">// Aguardando a primeira resposta.</pre><div class="wire-footer"><span id="response-content-type">Sem resposta recebida</span><span id="response-http-label">POST</span></div></section>
+          </div>
+          <div class="monitor-actions">
+            <div id="request-state" class="request-state"><p id="idle-description">Uma chamada por clique, sem novas tentativas automáticas.</p><p id="pending-result" hidden><span class="progress-mark" aria-hidden="true"></span><strong>Aguardando a API.</strong> <span id="pending-description"></span></p></div>
+            <div class="invoke-actions"><button id="cancel-run" class="button button-secondary is-inactive" type="button">Cancelar espera</button><button id="invoke-run" class="button button-primary" type="button" disabled>Fazer requisição <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button></div>
+          </div>
+        </section>
+
+        <section id="history-section" class="history-section" aria-labelledby="history-title">
+          <div class="history-heading"><div><h2 id="history-title">Histórico de chamadas</h2><span id="history-count">0 registros</span></div><button id="open-history" class="text-button" type="button" aria-haspopup="dialog" disabled>Ver histórico completo</button></div>
+          <p id="history-empty" class="history-empty">As chamadas desta execução aparecem aqui, da mais recente para a mais antiga.</p>
+          <ol id="history" class="history"></ol>
+          <p class="history-note">O número da tentativa vem do servidor. Outros clientes usando a mesma URL também avançam a execução.</p>
+        </section>
+        <div id="action-notice" class="notice action-notice" role="status" hidden><p id="action-notice-text"></p></div>
+        <p id="live-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+      </main>
+      <footer class="footer"><span>Estado temporário. A execução desaparece após expirar ou reiniciar a API.</span><span><a href="/openapi/v1.json" target="_blank" rel="noreferrer">Contrato HTTP</a></span></footer>
+    </div>
+
+    <nav class="mobile-nav" aria-label="Bancada"><button type="button" data-view="config"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 7h16M4 17h16M8 4v6m8 4v6" /></svg>Configurar</button><button type="button" data-view="monitor" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2" /><path d="M8 21h8m-4-4v4m-5-11 3-3-3-3m6 6h4" /></svg>Monitor</button><button type="button" data-view="history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M3 11a9 9 0 1 1 3 8M3 4v7h7m2-4v6l4 2" /></svg>Histórico</button></nav>
+
+    <dialog id="response-inspector" class="drawer" aria-labelledby="inspector-title" aria-describedby="inspector-description">
+      <header class="drawer-heading"><div><p id="drawer-context" class="drawer-context"></p><h2 id="inspector-title">Detalhes da resposta</h2></div><button id="close-drawer" class="close-button" type="button" aria-label="Fechar" autofocus><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6" /></svg></button></header>
+      <p id="inspector-description" class="drawer-description"></p>
+      <div id="drawer-body" class="drawer-body">
+        <section id="response-panel" hidden>
+          <div class="drawer-tabs" role="tablist" aria-label="Detalhes da resposta"><button id="response-tab-body" type="button" role="tab" aria-controls="inspector-body-panel" aria-selected="true" data-response-tab="body">Corpo</button><button id="response-tab-headers" type="button" role="tab" aria-controls="inspector-headers-panel" aria-selected="false" tabindex="-1" data-response-tab="headers">Headers</button><button id="response-tab-summary" type="button" role="tab" aria-controls="inspector-summary-panel" aria-selected="false" tabindex="-1" data-response-tab="summary">Resumo</button></div>
+          <dl id="inspector-stats" class="detail-stats"><div><dt>Status</dt><dd id="inspector-status"></dd></div><div><dt>Duração</dt><dd id="inspector-duration"></dd></div><div><dt>Tentativa no servidor</dt><dd id="inspector-attempt"></dd></div></dl>
+          <section id="inspector-body-panel" role="tabpanel" aria-labelledby="response-tab-body" tabindex="0"><div class="code-toolbar"><h3>Corpo recebido</h3><button id="copy-response-body" class="text-button" type="button">Copiar corpo</button></div><pre id="inspector-body" class="code-block" tabindex="0" aria-label="Corpo recebido"></pre></section>
+          <section id="inspector-headers-panel" role="tabpanel" aria-labelledby="response-tab-headers" tabindex="0" hidden><div class="code-toolbar"><h3>Headers recebidos</h3><button id="copy-response-headers" class="text-button" type="button">Copiar headers</button></div><pre id="inspector-headers" class="code-block" tabindex="0" aria-label="Headers recebidos"></pre></section>
+          <section id="inspector-summary-panel" class="drawer-summary" role="tabpanel" aria-labelledby="response-tab-summary" tabindex="0" hidden><h3 id="inspector-result-title"></h3><p id="inspector-explanation"></p><p id="inspector-origin" class="drawer-note"></p></section>
+        </section>
+        <section id="history-panel" hidden><ol id="history-full" class="drawer-history"></ol><p class="drawer-note">A contagem desta aba pode diferir da tentativa do servidor quando outro cliente usa a mesma URL. Cancelar a espera não devolve a tentativa reservada.</p></section>
+        <section id="developer-examples" hidden>
+          <p>Use a mesma URL fora do navegador. As chamadas compartilham o progresso da execução.</p>
+          <div class="example-toolbar"><label for="example-language">Exemplo</label><select id="example-language"><option value="curl">curl</option><option value="simple">C# · HttpClient</option><option value="resilient">C# · IHttpClientFactory + retry</option></select><button id="copy-example" class="text-button" type="button" disabled>Copiar exemplo</button></div>
+          <p id="example-instructions" class="drawer-note">Crie uma execução para gerar o exemplo com sua URL.</p>
+          <pre class="code-block example-code" tabindex="0" aria-label="Código do exemplo"><code id="example-code"></code></pre>
+          <p class="drawer-note">Repetir este POST consome outra tentativa do experimento. Em uma API real, isso pode duplicar uma operação. O exemplo com retry repete somente 429 e 503 identificados como resultados simulados.</p>
+        </section>
+        <section id="guide-panel" hidden>
+          <section class="guide-section"><h3>Configure um cenário</h3><p>Escolha falhas iniciais 503, uma janela de indisponibilidade 429 ou uma resposta com atraso. Os intervalos e valores padrão vêm da API.</p></section>
+          <section class="guide-section"><h3>Crie uma execução e envie POST</h3><p>Cada execução tem uma URL temporária e um limite de chamadas. A janela 429 começa na primeira chamada aceita. Alterar a configuração exige criar outra execução.</p></section>
+          <section class="guide-section"><h3>Observe e inspecione</h3><p>O monitor apresenta a resposta HTTP real. Corpo, headers e resumo ficam disponíveis no drawer. A origem da resposta distingue o cenário simulado, erros operacionais e respostas fora do contrato.</p></section>
+          <p class="drawer-note">Cancelar interrompe a espera deste navegador, sem devolver uma tentativa já reservada. Outros clientes com a mesma URL compartilham o progresso. O servidor determina a validade da execução.</p>
+        </section>
+      </div>
+      <footer class="drawer-footer"><span>dublê. / Bancada HTTP</span><span>Esc para fechar</span></footer>
+    </dialog>
+  </body>
+</html>

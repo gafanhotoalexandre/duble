@@ -1,0 +1,428 @@
+/* Composição da bancada desktop. Mobile continua em workbench.css.
+   As linhas flexíveis recebem min-height: 0; apenas conteúdo extenso rola internamente.
+   Nenhum overflow: hidden é usado para esconder conteúdo ou impedir a rolagem da página. */
+@media (min-width: 851px) {
+  .page-shell {
+    display: grid;
+    grid-template-rows: 64px minmax(0, 1fr) 22px;
+    gap: 14px;
+    height: 100dvh;
+    max-width: 1800px;
+    padding: 0 28px 8px;
+  }
+  .masthead {
+    min-height: 0;
+  }
+  #workbench {
+    display: grid;
+    grid-template-columns: 286px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) 106px;
+    gap: 14px;
+    min-height: 0;
+    position: relative;
+  }
+  .workbench-heading {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding: 0;
+    min-width: 0;
+  }
+  .workbench-heading > div {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    min-width: 0;
+  }
+  .workbench-heading h1 {
+    font-size: 20px;
+    line-height: 1.4;
+  }
+  .workbench-heading p {
+    margin: 0;
+    font-size: 12px;
+  }
+  .configuration {
+    grid-column: 1;
+    grid-row: 2;
+    min-height: 0;
+    margin: 0;
+    padding: 18px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-bench);
+    background: #fdfdfa;
+    overflow: auto;
+    scrollbar-width: thin;
+  }
+  .configuration .mobile-section-heading {
+    display: block;
+    padding: 0 0 14px;
+  }
+  .configuration .mobile-section-heading h2 {
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+  .configuration .mobile-section-heading p {
+    display: none;
+  }
+  .scenario-options {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+  .scenario-option {
+    min-height: 54px;
+    padding: 11px;
+    gap: 11px;
+  }
+  .scenario-code {
+    width: 32px;
+    font-size: 15px;
+  }
+  .scenario-option strong {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .scenario-option small {
+    display: none;
+  }
+  .setup {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 13px;
+    margin-top: 18px;
+    padding: 17px 0 0;
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    border-radius: 0;
+    background: transparent;
+  }
+  .parameter-field {
+    flex-shrink: 1;
+    gap: 9px;
+  }
+  .parameter-field > div:first-child {
+    min-width: 0;
+  }
+  .stepper {
+    flex-shrink: 0;
+  }
+  .stepper button {
+    width: 30px;
+  }
+  .stepper input {
+    width: 37px;
+  }
+  .setup-expectation {
+    flex: none;
+    border: 0;
+    padding: 0;
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  .run-notice {
+    margin: 12px 0 0;
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  .monitor {
+    grid-column: 2;
+    grid-row: 2;
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    min-width: 0;
+    min-height: 0;
+  }
+  .endpoint-bar {
+    min-width: 0;
+    padding: 9px 18px;
+    gap: 12px;
+  }
+  .stage-header {
+    padding: 14px 18px 0;
+  }
+  .result-stage {
+    min-height: 0;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    gap: 24px;
+    padding: 16px 18px 18px;
+  }
+  .results {
+    min-height: 0;
+    overflow: auto;
+    scrollbar-width: thin;
+  }
+  .result-summary {
+    min-width: 0;
+  }
+  .response-line {
+    gap: 16px;
+  }
+  .result-status {
+    font-size: clamp(42px, 3.5vw, 58px);
+  }
+  .response-line h3 {
+    font-size: 18px;
+  }
+  .result-explanation {
+    margin: 16px 0 22px;
+  }
+  .result-metrics {
+    grid-template-columns: 0.7fr 0.7fr 1.5fr;
+    gap: 11px;
+  }
+  .wire {
+    min-height: 0;
+  }
+  .wire-heading,
+  .wire-footer {
+    flex-shrink: 0;
+  }
+  .wire pre {
+    min-height: 0;
+    max-height: none;
+    flex: 1 1 0;
+    padding: 16px;
+  }
+  .monitor-actions {
+    padding: 11px 18px;
+    gap: 16px;
+  }
+  .request-state {
+    max-width: 48ch;
+  }
+  .history-section {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    min-height: 0;
+    min-width: 0;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 5px;
+  }
+  .history-heading {
+    margin: 0;
+  }
+  .history-heading .text-button {
+    padding: 3px 0;
+  }
+  .history {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    align-content: start;
+    min-height: 0;
+    padding: 2px 1px;
+    overflow: visible;
+  }
+  .history:empty,
+  .history > .history-item:nth-child(n + 7),
+  .history-note {
+    display: none;
+  }
+  .history-item {
+    min-width: 0;
+  }
+  .history-item > button {
+    padding: 11px 13px;
+  }
+  .history-empty {
+    align-self: center;
+    padding: 0;
+  }
+  .footer {
+    align-items: center;
+    padding: 0;
+    font-size: 10px;
+  }
+  #catalog-error {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+    z-index: 2;
+    margin: 0;
+  }
+  #action-notice {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: end;
+    z-index: 2;
+    margin: 0 14px 82px;
+  }
+}
+
+@media (min-width: 851px) and (max-width: 1100px) {
+  .page-shell {
+    padding-inline: 20px;
+  }
+  #workbench {
+    grid-template-columns: 262px minmax(0, 1fr);
+    column-gap: 12px;
+  }
+  .configuration {
+    padding: 15px;
+  }
+  .workbench-heading > div > p {
+    display: none;
+  }
+  .result-stage {
+    gap: 16px;
+  }
+  .response-line {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  .response-line > div {
+    min-width: 0;
+  }
+  .result-status {
+    font-size: 46px;
+  }
+  .response-line h3 {
+    font-size: 17px;
+  }
+  .result-metrics {
+    grid-template-columns: 0.6fr 0.6fr 1.4fr;
+  }
+  .result-metrics > div:last-child {
+    grid-column: auto;
+  }
+  .history {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .history > .history-item:nth-child(n + 5) {
+    display: none;
+  }
+  .monitor-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .request-state {
+    flex-basis: 100%;
+  }
+  .invoke-actions {
+    margin-left: auto;
+  }
+  .validity {
+    border: 0;
+    padding: 0;
+  }
+  .endpoint-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .endpoint-bar input {
+    flex-basis: 60%;
+  }
+}
+
+@media (min-width: 851px) and (max-height: 760px) {
+  .page-shell {
+    grid-template-rows: 58px minmax(0, 1fr) 19px;
+    row-gap: 10px;
+    padding-bottom: 6px;
+  }
+  #workbench {
+    grid-template-rows: auto minmax(0, 1fr) 100px;
+    row-gap: 10px;
+  }
+  .configuration {
+    padding: 15px;
+  }
+  .scenario-option small {
+    display: none;
+  }
+  .scenario-option {
+    min-height: 48px;
+    padding: 11px;
+  }
+  .setup {
+    margin-top: 14px;
+    padding-top: 14px;
+    gap: 11px;
+  }
+  .stage-header {
+    padding-top: 11px;
+  }
+  .result-stage {
+    padding-block: 12px;
+  }
+  .history-item > button {
+    padding-block: 9px;
+  }
+}
+
+@media (min-width: 851px) and (max-height: 680px) {
+  .page-shell {
+    grid-template-rows: 54px minmax(0, 1fr) 19px;
+    row-gap: 8px;
+  }
+  #workbench {
+    grid-template-rows: auto minmax(0, 1fr) 84px;
+    row-gap: 8px;
+  }
+  .configuration {
+    padding: 10px;
+  }
+  .configuration .mobile-section-heading {
+    padding-bottom: 10px;
+  }
+  .scenario-options {
+    gap: 8px;
+  }
+  .scenario-option {
+    min-height: 42px;
+    padding: 8px 11px;
+  }
+  .scenario-code,
+  .setup-expectation {
+    display: none;
+  }
+  .setup {
+    margin-top: 12px;
+    padding-top: 12px;
+    gap: 10px;
+  }
+  .run-notice {
+    margin-top: 10px;
+  }
+  .response-line {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  .response-line > div {
+    min-width: 0;
+  }
+  .result-status {
+    font-size: 42px;
+  }
+  .response-line h3 {
+    font-size: 17px;
+  }
+  .result-explanation {
+    margin: 12px 0 14px;
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  .result-metrics {
+    grid-template-columns: 0.7fr 0.7fr 1.5fr;
+    padding-top: 10px;
+  }
+  .result-metrics > div:last-child {
+    grid-column: auto;
+  }
+  .monitor-actions {
+    flex-wrap: nowrap;
+    gap: 12px;
+  }
+  .request-state {
+    flex-basis: auto;
+  }
+  .history-heading .text-button {
+    padding-block: 2px;
+  }
+  .history-item > button {
+    padding-block: 6px;
+  }
+}

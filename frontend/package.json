@@ -1,0 +1,27 @@
+{
+  "name": "duble-workbench",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "check": "biome check .",
+    "format": "biome check --write .",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview",
+    "build:examples": "dotnet build ../examples/HttpClient.cs --configuration Release -p:RestoreLockedMode=true && dotnet build ../examples/ResilientClient.cs --configuration Release -p:RestoreLockedMode=true",
+    "build:e2e-api": "dotnet build ../src/Duble.Api --configuration Release --artifacts-path ../artifacts/e2e-api --output ../artifacts/e2e-api/bin -p:UseAppHost=false -p:RestoreLockedMode=true",
+    "test:e2e": "npm run build:e2e-api && npm run build:examples && playwright test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.2",
+    "@playwright/test": "1.64.1",
+    "@types/node": "24.19.2",
+    "typescript": "7.0.2",
+    "vite": "8.3.5"
+  }
+}

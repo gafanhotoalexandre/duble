@@ -1,0 +1,49 @@
+name: Verificar backend e bancada
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+      - name: Restaurar dependências fixadas
+        run: dotnet restore Duble.slnx --locked-mode
+      - name: Verificar formatação
+        run: dotnet format Duble.slnx --verify-no-changes --no-restore
+      - name: Compilar
+        run: dotnet build Duble.slnx --configuration Release --no-restore
+      - name: Executar testes
+        run: dotnet test --solution Duble.slnx --configuration Release --no-build --no-restore
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Instalar ferramentas do frontend
+        run: npm ci
+        working-directory: frontend
+      - name: Verificar lint e formatação
+        run: npm run check
+        working-directory: frontend
+      - name: Compilar frontend e verificar tipos
+        run: npm run build
+        working-directory: frontend
+      - name: Instalar Chromium
+        run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - name: Verificar navegador e exemplos executáveis
+        run: npm run test:e2e
+        working-directory: frontend

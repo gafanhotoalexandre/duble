@@ -1,0 +1,27 @@
+# O build precisa apenas dos fontes e das configurações abaixo.
+**
+!Dockerfile
+!.dockerignore
+!global.json
+!Directory.Build.props
+!src/
+!src/Duble.Api/
+!src/Duble.Api/**
+!frontend/
+!frontend/package.json
+!frontend/package-lock.json
+!frontend/index.html
+!frontend/tsconfig.json
+!frontend/vite.config.ts
+!frontend/src/
+!frontend/src/**
+!examples/
+!examples/*.cs
+!examples/*.packages.lock.json
+**/bin/
+**/obj/
+**/node_modules/
+**/wwwroot/
+**/.env
+**/.env.*
+**/*.log
