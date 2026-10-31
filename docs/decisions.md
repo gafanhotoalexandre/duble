@@ -87,3 +87,18 @@ Até 850 px, configuração, monitor e histórico têm navegação própria.
 Dialog nativo fornece modalidade e foco. O fechamento aguarda a animação de saída;
 botão, Escape e backdrop seguem o mesmo fluxo. Movimento reduzido dispensa a espera.
 Abas suportam setas, Home/End e um único tab stop.
+
+## Arquivos estáticos e imagem final
+
+O ASP.NET Core serve o build do Vite em wwwroot. Não há roteamento de SPA nem fallback geral para index.html:
+assets ausentes continuam em 404, separados do contrato operacional de /api.
+HTML e arquivos sem hash exigem revalidação; somente bundles JS/CSS com hash recebem cache imutável.
+
+O build Docker inclui examples/ porque o Vite importa os fontes C# exibidos pela interface.
+A imagem final usa runtime oficial ASP.NET Core 10 Ubuntu Noble, sem root, Node ou SDK.
+PORT tem precedência sobre as portas padrão da imagem; --urls continua disponível fora do container.
+O processo dotnet recebe SIGTERM diretamente e possui orçamento de encerramento de oito segundos.
+
+Program público parcial é redundante no SDK usado e foi removido. InternalsVisibleTo permanece:
+os testes exercitam tipos internos do armazenamento, executor e configuração de limites.
+Nullable e ImplicitUsings são definidos apenas em Directory.Build.props, sem repetição nos projetos.

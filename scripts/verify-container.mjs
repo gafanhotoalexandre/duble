@@ -23,10 +23,14 @@ async function start(port, env = []) {
   const name = `duble-smoke-${randomUUID()}`;
   await docker("run", "--detach", "--name", name, "--publish", `127.0.0.1::${port}`, ...env, image);
   containers.push(name);
-  const binding = await docker("port", name, `${port}/tcp`);
-  const base = `http://127.0.0.1:${binding.split(":").at(-1)}`;
+  const base = await address(name, port);
   await ready(base);
   return { name, base };
+}
+
+async function address(name, port) {
+  const binding = await docker("port", name, `${port}/tcp`);
+  return `http://127.0.0.1:${binding.split(":").at(-1)}`;
 }
 
 async function ready(base) {
@@ -170,15 +174,17 @@ try {
   await problem(limited, 429, "rate_limit_exceeded");
   const inFlight = request(base, draining, { method: "POST" });
   await delay(300);
-  const stopping = docker("stop", "--time", "10", name);
+  const stopping = docker("stop", "--timeout", "10", name);
   await simulated(await inFlight, 200);
   await stopping;
   assert.equal(await docker("inspect", "--format", "{{.State.ExitCode}}", name), "0");
   const logs = await docker("logs", name);
   assert.ok(!logs.includes(recovery.split("/")[3]));
   await docker("start", name);
-  await ready(base);
-  await problem(await request(base, recovery, { method: "POST" }), 404, "run_unavailable");
+  // Uma porta de host alocada pelo Docker pode mudar durante o reinício.
+  const restartedBase = await address(name, 8080);
+  await ready(restartedBase);
+  await problem(await request(restartedBase, recovery, { method: "POST" }), 404, "run_unavailable");
   console.log("Quota padrão, SIGTERM com chamada lenta e perda de estado após reinício conferidos.");
 
   await start(8091, ["--env", "PORT=8091", "--env", "ASPNETCORE_HTTP_PORTS=9999"]);

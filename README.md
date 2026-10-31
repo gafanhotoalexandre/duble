@@ -17,6 +17,36 @@ ao reiniciar a aplicação.
 A janela de indisponibilidade começa na primeira chamada aceita. Cada invocação aceita
 consome uma tentativa, mesmo se o cliente cancelar a espera.
 
+## Aplicação completa no container
+
+Requisito: Docker com engine Linux. Na raiz:
+
+```powershell
+docker build --tag duble:local .
+docker run --detach --name duble-review --publish 127.0.0.1:8080:8080 duble:local
+```
+
+Abra http://127.0.0.1:8080. O ASP.NET Core serve a bancada compilada e a API, sem Vite.
+A imagem usa runtime .NET 10 Ubuntu Noble, usuário não root e não inclui Node ou SDK.
+`PORT` define a porta interna, com fallback 8080. Para outra porta:
+
+```powershell
+docker run --detach --name duble-alternate --env PORT=8091 --publish 127.0.0.1:8081:8091 duble:local
+```
+
+O HTML exige revalidação; bundles JS/CSS com hash recebem cache imutável por um ano.
+Respostas da API não são armazenadas em cache. Não há fallback de rotas desconhecidas para o HTML.
+
+Para encerrar ou remover os containers criados acima:
+
+```powershell
+docker stop --timeout 10 duble-review duble-alternate
+docker rm duble-review duble-alternate
+```
+
+Só inclua `duble-alternate` se tiver executado o segundo comando de criação.
+O [roteiro manual](docs/manual-validation.md) cobre navegador, linha de comando e reinício.
+
 ## Desenvolvimento
 
 Requisitos: SDK .NET indicado em `global.json` e Node 24 LTS com npm.
@@ -95,6 +125,17 @@ Os E2E usam Vite e Kestrel em portas próprias, sem reutilizar servidores aberto
 A frequência permitida é ampliada apenas nesses processos de teste; o limite de 50 chamadas
 por execução permanece. Fixtures locais cobrem respostas inválidas e falhas de transporte.
 
+Depois de preparar as dependências e o Chromium com o roteiro acima, verifique a imagem final:
+
+```powershell
+node scripts/verify-container.mjs duble:local
+```
+
+O smoke cria containers temporários com as quotas padrão e remove somente esses containers ao terminar.
+Verifica bancada em Chromium, três cenários, cache, roteamento, cancelamento, SIGTERM durante uma chamada
+lenta, perda de estado após reinício e porta alternativa. Capturas ficam em `artifacts/container/`.
+O GitHub Actions executa as verificações existentes e esse smoke no Linux.
+
 ## Limites e estado
 
 Valores padrão, configuráveis no servidor:
@@ -127,3 +168,4 @@ depende da validação da identidade do cliente; essa integração ainda não es
 - [Escopo e arquitetura da V1](docs/v1-plan.md)
 - [Contrato HTTP](docs/http-contract.md)
 - [Decisões técnicas](docs/decisions.md)
+- [Roteiro manual antes e depois do deploy](docs/manual-validation.md)
