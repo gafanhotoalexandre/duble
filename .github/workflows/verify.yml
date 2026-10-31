@@ -11,7 +11,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
         with:
@@ -47,3 +47,16 @@ jobs:
       - name: Verificar navegador e exemplos executáveis
         run: npm run test:e2e
         working-directory: frontend
+      - name: Compilar imagem final
+        run: docker build --tag duble:ci .
+      - name: Verificar aplicação no container
+        run: node scripts/verify-container.mjs duble:ci
+      - name: Guardar evidências de falha
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: falha-de-validacao
+          path: |
+            frontend/test-results/
+            artifacts/container/
+          retention-days: 7

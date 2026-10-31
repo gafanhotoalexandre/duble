@@ -316,6 +316,14 @@
   }
 }
 
+/* A expectativa repete o monitor; retirar essa linha preserva espaço para controles
+   e avisos também quando a fonte de sistema ocupa mais linhas, como no Linux. */
+@media (min-width: 851px) and (max-height: 800px) {
+  .setup-expectation {
+    display: none;
+  }
+}
+
 @media (min-width: 851px) and (max-height: 760px) {
   .page-shell {
     grid-template-rows: 58px minmax(0, 1fr) 19px;
