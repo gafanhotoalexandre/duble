@@ -15,7 +15,7 @@ COPY src/Duble.Api/ src/Duble.Api/
 COPY --from=frontend /build/frontend/dist/ src/Duble.Api/wwwroot/
 RUN dotnet publish src/Duble.Api --configuration Release --no-restore --output /app -p:UseAppHost=false
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0.13-noble AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0.14-noble AS runtime
 WORKDIR /app
 COPY --from=publish /app/ ./
 ENV ASPNETCORE_ENVIRONMENT=Production

@@ -74,9 +74,11 @@ As portas do frontend são estritas: uma porta ocupada causa erro.
 
 Exemplo em PowerShell. Use `curl.exe` para evitar o alias de versões antigas do PowerShell.
 No Linux e macOS, use `curl`. Não use `--fail` nas invocações: 429 e 503 podem ser respostas esperadas.
+O exemplo usa o container em 8080. Se iniciou a API pelo comando de desenvolvimento,
+altere `$base` para `http://127.0.0.1:5080`.
 
 ```powershell
-$base = 'http://127.0.0.1:5080'
+$base = 'http://127.0.0.1:8080'
 $body = @{ scenarioId = 'failure-recovery'; parameterValue = 2 } | ConvertTo-Json -Compress
 $run = Invoke-RestMethod -Method Post -Uri "$base/api/runs" -ContentType 'application/json' -Body $body
 $url = $base + $run.invoke.path
